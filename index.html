@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>suki Will you be my Valentine?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suki, Will You Be My Valentine?</title>
 
+  <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -16,17 +17,15 @@
       --yesHover: #ff1f68;
     }
 
-    * { box-sizing: border-box; }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      margin: 0;
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background: radial-gradient(circle at top, var(--bg2), var(--bg1));
       font-family: system-ui, sans-serif;
       overflow: hidden;
-      padding: 16px;
     }
 
     #confettiCanvas {
@@ -39,9 +38,79 @@
     }
 
     .card {
-      width: min(720px, 92vw);
-      padding: 26px 22px;
+      width: min(600px, 90vw);
+      padding: 30px;
       background: var(--card);
       backdrop-filter: blur(10px);
-      border-radius: 22px;
-      text-align: center
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #ff1f68;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 30px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      background-color: var(--yes);
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: var(--yesHover);
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="card">
+    <h1>Suki, will you be my Valentine?</h1>
+    <button id="yesButton">Yes 💖</button>
+  </div>
+
+  <script>
+    const button = document.getElementById('yesButton');
+
+    button.addEventListener('click', () => {
+      // Confetti effect
+      const duration = 2 * 1000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ["#ff3b7a","#ff9ed1","#ffeef6","#ff6f91"]
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ["#ff3b7a","#ff9ed1","#ffeef6","#ff6f91"]
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
+      
+      button.textContent = "💘 Yay!";
+      button.disabled = true;
+    });
+  </script>
+
+</body>
+</html>
